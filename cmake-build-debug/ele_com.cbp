@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ele_com"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="D:/stm32-learning/ele_com/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ele_com.elf">
+				<Option output="D:/stm32-learning/ele_com/cmake-build-debug/ele_com.elf" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/stm32-learning/ele_com/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DDEBUG"/>
+					<Add option="-DUSE_HAL_DRIVER"/>
+					<Add option="-DSTM32F103xB"/>
+					<Add directory="D:/stm32-learning/ele_com/Core/Inc"/>
+					<Add directory="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc"/>
+					<Add directory="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy"/>
+					<Add directory="D:/stm32-learning/ele_com/Drivers/CMSIS/Device/ST/STM32F1xx/Include"/>
+					<Add directory="D:/stm32-learning/ele_com/Drivers/CMSIS/Include"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include/c++/13.2.1"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include/c++/13.2.1/arm-none-eabi"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include/c++/13.2.1/backward"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/include"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/include-fixed"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 ele_com.elf"/>
+					<CompileFile command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ele_com.elf/fast">
+				<Option output="D:/stm32-learning/ele_com/cmake-build-debug/ele_com.elf" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/stm32-learning/ele_com/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DDEBUG"/>
+					<Add option="-DUSE_HAL_DRIVER"/>
+					<Add option="-DSTM32F103xB"/>
+					<Add directory="D:/stm32-learning/ele_com/Core/Inc"/>
+					<Add directory="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc"/>
+					<Add directory="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy"/>
+					<Add directory="D:/stm32-learning/ele_com/Drivers/CMSIS/Device/ST/STM32F1xx/Include"/>
+					<Add directory="D:/stm32-learning/ele_com/Drivers/CMSIS/Include"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include/c++/13.2.1"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include/c++/13.2.1/arm-none-eabi"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include/c++/13.2.1/backward"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/include"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/include-fixed"/>
+					<Add directory="E:/Arm_GNU_ToolChain/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 ele_com.elf/fast"/>
+					<CompileFile command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="D:/stm32-learning/ele_com/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="D:/stm32-learning/ele_com/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="F:/CLion 2024.1.4/bin/mingw/bin/mingw32-make.exe -f &quot;D:/stm32-learning/ele_com/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Inc/Kine.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Inc/gpio.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Inc/main.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Inc/servo.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Inc/stm32f1xx_hal_conf.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Inc/stm32f1xx_it.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Inc/tim.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Src/Kine.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Src/gpio.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Src/main.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Src/servo.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Src/stm32f1xx_hal_msp.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Src/stm32f1xx_it.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Src/syscalls.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Src/sysmem.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Src/system_stm32f1xx.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Src/tim.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Core/Startup/startup_stm32f103c8tx.s">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Device/ST/STM32F1xx/LICENSE.txt">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/cmsis_armcc.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/cmsis_armclang.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/cmsis_compiler.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/cmsis_gcc.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/cmsis_iccarm.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/cmsis_version.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_armv8mbl.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_armv8mml.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_cm0.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_cm0plus.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_cm1.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_cm23.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_cm3.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_cm33.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_cm4.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_cm7.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_sc000.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/core_sc300.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/mpu_armv7.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/mpu_armv8.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/Include/tz_context.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/CMSIS/LICENSE.txt">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_bus.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_cortex.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_dma.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_exti.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_gpio.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_pwr.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_rcc.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_system.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_tim.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_utils.h">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/LICENSE.txt">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/STM32F103C8TX_FLASH.ld">
+			<Option target="ele_com.elf"/>
+		</Unit>
+		<Unit filename="D:/stm32-learning/ele_com/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
