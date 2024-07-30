@@ -1,34 +1,21 @@
 import sensor, image, time, machine
+from machine import UART
 
+# 初始化传感器
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)
 sensor.set_framesize(sensor.QVGA)
 sensor.set_framerate(80)
 sensor.skip_frames(time=2000)
 
-# Initialize the display
+# 关闭自动增益和白平衡
 sensor.set_auto_gain(False)
 sensor.set_auto_whitebal(False)
 
 mode = 1
 last_pressed = False
 
-'''
-button = machine.Pin('P7', machine.Pin.IN, machine.Pin.PULL_UP)  # Change pin according to your setup
-
-def check_mode_switch(img, disp_w, disp_h):
-    global mode, last_pressed
-    if not button.value():  # Button pressed
-        if not last_pressed:
-            last_pressed = True
-            mode += 1
-            if mode > 2:
-                mode = 1
-    else:
-        last_pressed = False
-    img.draw_string(2, 10, f"mode {mode}", color=(255, 255, 255), scale=1.5)
-    img.draw_rectangle(0, 0, 100, 40, color=(255, 255, 255), thickness=2)
-'''
+uart = UART(2, baudrate=115200)  # 初始化UART，波特率设置为115200
 
 
 def mash():
@@ -39,19 +26,16 @@ def mash():
 
     while mode == 1:
         img = sensor.snapshot()
-        '''
-        check_mode_switch(img, sensor.width(), sensor.height())
-        '''
 
         gray = img.copy().to_grayscale()
 
-        # Edge detection
+        # 边缘检测
         edged = gray.find_edges(image.EDGE_CANNY, threshold=(50, 150))
 
-        # Dilate the edges
+        # 膨胀边缘
         edged.dilate(1)
 
-        # Find contours
+        # 找轮廓
         blobs = edged.find_blobs([(100, 255)], pixels_threshold=pixels_threshold, area_threshold=area_threshold,
                                  merge=True)
         if blobs:
@@ -64,7 +48,7 @@ def mash():
 
                 tl, bl, br, tr = corners
 
-                # Calculate 3x3 grid intersections
+                # 计算3x3网格交点
                 cross_points = []
                 for i in range(4):
                     for j in range(4):
@@ -87,6 +71,7 @@ def mash():
                                                 1]) / 4)
                             centers.append((center_x, center_y))
                             img.draw_circle(center_x, center_y, 2, color=(0, 255, 0), thickness=-1)
+
                 elif find_center_method == 2:
                     roi = [min(tl[0], bl[0]), min(tl[1], tr[1]), max(tr[0], br[0]) - min(tl[0], bl[0]),
                            max(bl[1], br[1]) - min(tl[1], tr[1])]
@@ -98,6 +83,18 @@ def mash():
                         img.draw_circle(b.cx(), b.cy(), 2, color=(255, 255, 255), thickness=-1)
                 else:
                     raise Exception("find_center_method value error")
+
+                # 发送 centers 列表中的每个元素
+                for center in centers:
+                    center_data = f"{center[0]},{center[1]}\r\n"
+                    uart.write(center_data.encode('utf-8'))  # 将中心点坐标转换为字符串并发送
+
+                # 检查UART数据并回显
+                uart_num = uart.any()  # 获取当前串口数据数量
+                if uart_num:
+                    uart_str = uart.read(uart_num)  # 读取UART数据
+                    print(uart_str)  # 打印接收到的数据
+                    uart.write(uart_str)  # 将读取到的串口数据发回
 
                 if len(centers) == 9:
                     centers = sorted(centers, key=lambda c: (c[1], c[0]))
