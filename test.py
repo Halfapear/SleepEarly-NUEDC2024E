@@ -1,139 +1,294 @@
-import sensor, image, time, pyb, random
-from machine import UART
+import sensor, image, time, machine
 
-# 初始化摄像头
 sensor.reset()
-sensor.set_pixformat(sensor.RGB565)  # 使用彩色图像
-sensor.set_framesize(sensor.QVGA)  # 320x240
+sensor.set_pixformat(sensor.RGB565)
+sensor.set_framesize(sensor.QVGA)
+sensor.set_framerate(80)
 sensor.skip_frames(time=2000)
 
-# 定义图像窗口的尺寸
-frame_width = 320
-frame_height = 240
+# Initialize the display
+sensor.set_auto_gain(False)
+sensor.set_auto_whitebal(False)
 
-# 定义每个小方框的尺寸
-box_size = 60  # 180像素的ROI区域，分成3x3的方框，每个方框为60x60像素
+mode = 1
+last_pressed = False
 
-# 计算ROI区域的左上角坐标，使其位于图像窗口的中央
-roi_x = (frame_width - box_size * 3) // 2
-roi_y = (frame_height - box_size * 3) // 2
+'''
+button = machine.Pin('P7', machine.Pin.IN, machine.Pin.PULL_UP)  # Change pin according to your setup
 
-# 创建时间记录器
-clock = time.clock()
-
-# 串口初始化
-uart = UART(3, 9600)
-
-# 检测棋子的颜色0阈值
-black_threshold = [(8, 37, -5, 22, -12, 7)]
-white_threshold = [(99, 100, 0, 3, -1, 0)]
-
-# 初始化棋盘，0表示空，1表示白棋，2表示黑棋
-board = [[0 for _ in range(3)] for _ in range(3)]
-ai_first_move = True  # AI是否是第一次下棋
-
-# 定义时间间隔为5秒
-time_interval = 50
-last_time = pyb.millis()
+def check_mode_switch(img, disp_w, disp_h):
+    global mode, last_pressed
+    if not button.value():  # Button pressed
+        if not last_pressed:
+            last_pressed = True
+            mode += 1
+            if mode > 2:
+                mode = 1
+    else:
+        last_pressed = False
+    img.draw_string(2, 10, f"mode {mode}", color=(255, 255, 255), scale=1.5)
+    img.draw_rectangle(0, 0, 100, 40, color=(255, 255, 255), thickness=2)
+'''
 
 
-def detect_piece(roi):
-    # 检测黑棋子
-    black_blobs = img.find_blobs(black_threshold, roi=roi, pixels_threshold=50, area_threshold=50, merge=True)
-    for blob in black_blobs:
-        if 90 < blob.pixels() < 120:
-            return 'B'
+def mash():
+    find_center_method = 1  # 1, 2
+    area_threshold = 80
+    pixels_threshold = 50
+    thresholds = [(30, 100, 15, 127, 15, 127)]  # red
 
-    # 检测白棋子
-    white_blobs = img.find_blobs(white_threshold, roi=roi, pixels_threshold=50, area_threshold=50, merge=True)
-    for blob in white_blobs:
-        if 90 < blob.pixels() < 120:
-            return 'A'
+    while mode == 1:
+        img = sensor.snapshot()
+        '''
+        check_mode_switch(img, sensor.width(), sensor.height())
+        '''
 
-    return None
+        gray = img.copy().to_grayscale()
 
+        # Edge detection
+        edged = gray.find_edges(image.EDGE_CANNY, threshold=(50, 150))
 
-def check_winner(board):
-    # 检查是否有胜利者
-    for i in range(3):
-        # 检查行
-        if board[i][0] == board[i][1] == board[i][2] != 0:
-            return board[i][0]
-        # 检查列
-        if board[0][i] == board[1][i] == board[2][i] != 0:
-            return board[0][i]
-    # 检查对角线
-    if board[0][0] == board[1][1] == board[2][2] != 0:
-        return board[0][0]
-    if board[0][2] == board[1][1] == board[2][0] != 0:
-        return board[0][2]
-    # 检查是否平局
-    if all(board[i][j] != 0 for i in range(3) for j in range(3)):
-        return 3  # 平局
-    return 0  # 未分出胜负
+        # Dilate the edges
+        edged.dilate(1)
 
+        # Find contours
+        blobs = edged.find_blobs([(100, 255)], pixels_threshold=pixels_threshold, area_threshold=area_threshold,
+                                 merge=True)
+        if blobs:
+            largest_blob = max(blobs, key=lambda b: b.area())
+            corners = largest_blob.min_corners()
 
-def ai_move(board):
-    global ai_first_move  # 声明使用全局变量
-    # AI下棋逻辑：首先选择中心位置，然后随机选择空位置
-    if ai_first_move:
-        ai_first_move = False
-        return 1, 1  # 中心位置
-    empty_positions = [(i, j) for i in range(3) for j in range(3) if board[i][j] == 0]
-    if empty_positions:
-        return random.choice(empty_positions)
-    return None
+            if len(corners) == 4:
+                img.draw_rectangle(largest_blob.rect(), color=(0, 255, 0), thickness=2)
+                img.draw_edges(corners, color=(0, 255, 0))
 
+                tl, bl, br, tr = corners
 
-while (True):
-    clock.tick()
+                # Calculate 3x3 grid intersections
+                cross_points = []
+                for i in range(4):
+                    for j in range(4):
+                        cross_x = int(
+                            (tl[0] * (3 - i) + tr[0] * i) * (3 - j) / 9 + (bl[0] * (3 - i) + br[0] * i) * j / 9)
+                        cross_y = int(
+                            (tl[1] * (3 - i) + tr[1] * i) * (3 - j) / 9 + (bl[1] * (3 - i) + br[1] * i) * j / 9)
+                        cross_points.append((cross_x, cross_y))
+                        img.draw_circle(cross_x, cross_y, 3, color=(0, 255, 0), thickness=-1)
 
-    # 捕获图像
-    img = sensor.snapshot()
-
-    # 获取当前时间
-    current_time = pyb.millis()
-
-    # 检查是否已经过了5秒
-    if (current_time - last_time) >= time_interval:
-        last_time = current_time
-
-        # 画出3x3的框并检测棋子
-        for i in range(3):
-            for j in range(3):
-                x = roi_x + i * box_size
-                y = roi_y + j * box_size
-                roi = (x, y, box_size, box_size)
-
-                # 检测棋子
-                piece = detect_piece(roi)
-                if piece == 'A':
-                    board[j][i] = 1
-                    img.draw_rectangle(roi, color=(0, 0, 255))  # 蓝色框
-                elif piece == 'B':
-                    board[j][i] = 2
-                    img.draw_rectangle(roi, color=(0, 255, 0))  # 绿色框
+                centers = []
+                if find_center_method == 1:
+                    for i in range(3):
+                        for j in range(3):
+                            center_x = int((cross_points[i * 4 + j][0] + cross_points[i * 4 + j + 1][0] +
+                                            cross_points[(i + 1) * 4 + j][0] + cross_points[(i + 1) * 4 + j + 1][
+                                                0]) / 4)
+                            center_y = int((cross_points[i * 4 + j][1] + cross_points[i * 4 + j + 1][1] +
+                                            cross_points[(i + 1) * 4 + j][1] + cross_points[(i + 1) * 4 + j + 1][
+                                                1]) / 4)
+                            centers.append((center_x, center_y))
+                            img.draw_circle(center_x, center_y, 2, color=(0, 255, 0), thickness=-1)
+                elif find_center_method == 2:
+                    roi = [min(tl[0], bl[0]), min(tl[1], tr[1]), max(tr[0], br[0]) - min(tl[0], bl[0]),
+                           max(bl[1], br[1]) - min(tl[1], tr[1])]
+                    img.draw_rectangle(roi[0], roi[1], roi[2], roi[3], color=(255, 255, 255), thickness=2)
+                    blobs = img.find_blobs(thresholds, roi=roi, pixels_threshold=pixels_threshold,
+                                           area_threshold=area_threshold, merge=True)
+                    for b in blobs:
+                        centers.append((b.cx(), b.cy()))
+                        img.draw_circle(b.cx(), b.cy(), 2, color=(255, 255, 255), thickness=-1)
                 else:
-                    img.draw_rectangle(roi, color=(255, 0, 0))  # 红色框，表示空位置
+                    raise Exception("find_center_method value error")
 
-        # 检查白棋是否下了一步棋
-        white_move_detected = any(board[j][i] == 1 for j in range(3) for i in range(3))
-        if white_move_detected:
-            winner = check_winner(board)
-            if winner == 1:
-                uart.write(b'\x14')  # 白棋赢了，发送0x14
-            elif winner == 2:
-                uart.write(b'\x12')  # 黑棋赢了，发送0x12
-            elif winner == 3:
-                uart.write(b'\x13')  # 平局，发送0x13
-            else:
-                # AI下棋
-                ai_pos = ai_move(board)
-                if ai_pos:
-                    board[ai_pos[1]][ai_pos[0]] = 2
-                    position_code = 0x01 + ai_pos[1] * 3 + ai_pos[0]
-                    uart.write(bytes([position_code]))  # 发送黑棋位置
-                    print(f"AI move to position: {position_code:#04x}")
+                if len(centers) == 9:
+                    centers = sorted(centers, key=lambda c: (c[1], c[0]))
+                    for i, center in enumerate(centers):
+                        img.draw_string(center[0], center[1], str(i + 1), color=(255, 255, 255), scale=2, thickness=-1)
 
-    # 打印帧率
-    print(clock.fps())
+        sensor.flush()
+
+
+def node():
+    area_threshold = 300
+    pixels_threshold = 300
+    thresholds = [(30, 100, 15, 127, 15, 127),  # red
+                  (0, 30, 0, 64, -128, 127),  # black
+                  (0, 30, 0, 64, 0, 64)]  # white
+
+    while mode == 2:
+        img = sensor.snapshot()
+        check_mode_switch(img, sensor.width(), sensor.height())
+
+        blobs = img.find_blobs(thresholds, pixels_threshold=pixels_threshold, area_threshold=area_threshold, merge=True)
+        for b in blobs:
+            corners = b.min_corners()
+            if b.code() == 1:
+                img.draw_edges(corners, color=(255, 255, 0))
+            elif b.code() == 2:
+                if b.area() < 800:
+                    img.draw_circle(b.cx(), b.cy(), b.enclosing_circle()[2], color=(0, 255, 0), thickness=2)
+            elif b.code() == 4:
+                img.draw_circle(b.cx(), b.cy(), b.enclosing_circle()[2], color=(255, 0, 0), thickness=2)
+
+        sensor.flush()
+
+
+def main():
+    while True:
+        mash()
+        node()
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except Exception as e:
+        print(e)
+        while True:
+            time.sleep(1000)
+import sensor, image, time, machine
+
+sensor.reset()
+sensor.set_pixformat(sensor.RGB565)
+sensor.set_framesize(sensor.QVGA)
+sensor.set_framerate(80)
+sensor.skip_frames(time=2000)
+
+# Initialize the display
+sensor.set_auto_gain(False)
+sensor.set_auto_whitebal(False)
+
+mode = 1
+last_pressed = False
+
+'''
+button = machine.Pin('P7', machine.Pin.IN, machine.Pin.PULL_UP)  # Change pin according to your setup
+
+def check_mode_switch(img, disp_w, disp_h):
+    global mode, last_pressed
+    if not button.value():  # Button pressed
+        if not last_pressed:
+            last_pressed = True
+            mode += 1
+            if mode > 2:
+                mode = 1
+    else:
+        last_pressed = False
+    img.draw_string(2, 10, f"mode {mode}", color=(255, 255, 255), scale=1.5)
+    img.draw_rectangle(0, 0, 100, 40, color=(255, 255, 255), thickness=2)
+'''
+
+
+def mash():
+    find_center_method = 1  # 1, 2
+    area_threshold = 80
+    pixels_threshold = 50
+    thresholds = [(30, 100, 15, 127, 15, 127)]  # red
+
+    while mode == 1:
+        img = sensor.snapshot()
+        '''
+        check_mode_switch(img, sensor.width(), sensor.height())
+        '''
+
+        gray = img.copy().to_grayscale()
+
+        # Edge detection
+        edged = gray.find_edges(image.EDGE_CANNY, threshold=(50, 150))
+
+        # Dilate the edges
+        edged.dilate(1)
+
+        # Find contours
+        blobs = edged.find_blobs([(100, 255)], pixels_threshold=pixels_threshold, area_threshold=area_threshold,
+                                 merge=True)
+        if blobs:
+            largest_blob = max(blobs, key=lambda b: b.area())
+            corners = largest_blob.min_corners()
+
+            if len(corners) == 4:
+                img.draw_rectangle(largest_blob.rect(), color=(0, 255, 0), thickness=2)
+                img.draw_edges(corners, color=(0, 255, 0))
+
+                tl, bl, br, tr = corners
+
+                # Calculate 3x3 grid intersections
+                cross_points = []
+                for i in range(4):
+                    for j in range(4):
+                        cross_x = int(
+                            (tl[0] * (3 - i) + tr[0] * i) * (3 - j) / 9 + (bl[0] * (3 - i) + br[0] * i) * j / 9)
+                        cross_y = int(
+                            (tl[1] * (3 - i) + tr[1] * i) * (3 - j) / 9 + (bl[1] * (3 - i) + br[1] * i) * j / 9)
+                        cross_points.append((cross_x, cross_y))
+                        img.draw_circle(cross_x, cross_y, 3, color=(0, 255, 0), thickness=-1)
+
+                centers = []
+                if find_center_method == 1:
+                    for i in range(3):
+                        for j in range(3):
+                            center_x = int((cross_points[i * 4 + j][0] + cross_points[i * 4 + j + 1][0] +
+                                            cross_points[(i + 1) * 4 + j][0] + cross_points[(i + 1) * 4 + j + 1][
+                                                0]) / 4)
+                            center_y = int((cross_points[i * 4 + j][1] + cross_points[i * 4 + j + 1][1] +
+                                            cross_points[(i + 1) * 4 + j][1] + cross_points[(i + 1) * 4 + j + 1][
+                                                1]) / 4)
+                            centers.append((center_x, center_y))
+                            img.draw_circle(center_x, center_y, 2, color=(0, 255, 0), thickness=-1)
+                elif find_center_method == 2:
+                    roi = [min(tl[0], bl[0]), min(tl[1], tr[1]), max(tr[0], br[0]) - min(tl[0], bl[0]),
+                           max(bl[1], br[1]) - min(tl[1], tr[1])]
+                    img.draw_rectangle(roi[0], roi[1], roi[2], roi[3], color=(255, 255, 255), thickness=2)
+                    blobs = img.find_blobs(thresholds, roi=roi, pixels_threshold=pixels_threshold,
+                                           area_threshold=area_threshold, merge=True)
+                    for b in blobs:
+                        centers.append((b.cx(), b.cy()))
+                        img.draw_circle(b.cx(), b.cy(), 2, color=(255, 255, 255), thickness=-1)
+                else:
+                    raise Exception("find_center_method value error")
+
+                if len(centers) == 9:
+                    centers = sorted(centers, key=lambda c: (c[1], c[0]))
+                    for i, center in enumerate(centers):
+                        img.draw_string(center[0], center[1], str(i + 1), color=(255, 255, 255), scale=2, thickness=-1)
+
+        sensor.flush()
+
+
+def node():
+    area_threshold = 300
+    pixels_threshold = 300
+    thresholds = [(30, 100, 15, 127, 15, 127),  # red
+                  (0, 30, 0, 64, -128, 127),  # black
+                  (0, 30, 0, 64, 0, 64)]  # white
+
+    while mode == 2:
+        img = sensor.snapshot()
+        check_mode_switch(img, sensor.width(), sensor.height())
+
+        blobs = img.find_blobs(thresholds, pixels_threshold=pixels_threshold, area_threshold=area_threshold, merge=True)
+        for b in blobs:
+            corners = b.min_corners()
+            if b.code() == 1:
+                img.draw_edges(corners, color=(255, 255, 0))
+            elif b.code() == 2:
+                if b.area() < 800:
+                    img.draw_circle(b.cx(), b.cy(), b.enclosing_circle()[2], color=(0, 255, 0), thickness=2)
+            elif b.code() == 4:
+                img.draw_circle(b.cx(), b.cy(), b.enclosing_circle()[2], color=(255, 0, 0), thickness=2)
+
+        sensor.flush()
+
+
+def main():
+    while True:
+        mash()
+        node()
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except Exception as e:
+        print(e)
+        while True:
+            time.sleep(1000)
