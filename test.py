@@ -1,6 +1,12 @@
 import sensor, image, time, machine
 from machine import UART
 
+# 定义黑色和白色的颜色阈值
+# 黑色阈值 (L Min, L Max, A Min, A Max, B Min, B Max)
+black_threshold = (0, 30, -128, 127, -128, 127)
+# 白色阈值
+white_threshold = (50, 255, -128, 127, -128, 127)
+
 # 初始化传感器
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)  # 设置传感器的像素格式为RGB565
@@ -115,6 +121,19 @@ def node():
     thresholds = [(30, 100, 15, 127, 15, 127),  # 红色
                   (0, 30, 0, 64, -128, 127),  # 黑色
                   (0, 30, 0, 64, 0, 64)]  # 白色
+
+    # 插入
+    # 查找黑色和白色的色块
+    for blob in img.find_blobs([black_threshold, white_threshold], pixels_threshold=200, area_threshold=200):
+        # 检查是否为圆形
+        if blob.roundness() > 0.5:  # 通过圆度来判断
+            if blob.code() == 1:  # 黑色
+                img.draw_circle(blob.cx(), blob.cy(), int(blob.w() / 2), color=(0, 0, 0))  # 绘制黑色圆
+            elif blob.code() == 2:  # 白色
+                img.draw_circle(blob.cx(), blob.cy(), int(blob.w() / 2), color=(255, 255, 255))  # 绘制白色圆
+            img.draw_cross(blob.cx(), blob.cy())  # 绘制中心点
+    # print(clock.fps()) # 打印每秒帧数（FPS）
+    #
 
     while mode == 2:
         img = sensor.snapshot()  # 拍摄一张图片
