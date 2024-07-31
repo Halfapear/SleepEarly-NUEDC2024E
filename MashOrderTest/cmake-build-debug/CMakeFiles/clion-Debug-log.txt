@@ -1,0 +1,1 @@
+"C:\environ\CLion 2024.1.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/environ/CLion 2024.1.4/bin/ninja/win/x64/ninja.exe" -G Ninja -S D:\0-jzb—————————————————\QQ\1783148122\FileRecv\point -B D:\0-jzb—————————————————\QQ\1783148122\FileRecv\point\cmake-build-debug
