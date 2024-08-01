@@ -90,12 +90,13 @@ def mash():
                 else:
                     raise Exception("find_center_method value error")  # 如果方法值不正确，抛出异常
 
+                '''
                 # 发送 centers 列表中的每个元素，并标记1到9
                 for i, center in enumerate(centers):
                     center_data = f"{i + 1}: {center[0]},{center[1]}\r\n"
                     uart.write(center_data.encode('utf-8'))  # 将中心点坐标转换为字符串并发送
 
-                '''
+                
 
                 # 检查UART数据并回显
                 uart_num = uart.any()  # 获取当前串口数据数量

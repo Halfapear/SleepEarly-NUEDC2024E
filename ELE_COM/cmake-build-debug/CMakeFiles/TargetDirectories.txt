@@ -1,0 +1,3 @@
+C:/environ/FILE_STM32/ELE_COM/cmake-build-debug/CMakeFiles/ELE_COM.elf.dir
+C:/environ/FILE_STM32/ELE_COM/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/environ/FILE_STM32/ELE_COM/cmake-build-debug/CMakeFiles/rebuild_cache.dir
