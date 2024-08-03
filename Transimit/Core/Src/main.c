@@ -20,7 +20,8 @@
 #include "main.h"
 #include "usart.h"
 #include "gpio.h"
-
+#include <stdbool.h>
+#include <stdio.h>
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -55,7 +56,14 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+bool isAllZero(int arr[]) {
+  for(int i = 0; i < 5; i++) {
+    if(arr[i] != 0) {
+      return false; // 如果发现一个元素不是0，返回false
+    }
+  }
+  return true; // 如果所有元素都是0，返回true
+}
 /* USER CODE END 0 */
 
 /**
@@ -93,7 +101,7 @@ int main(void)
   uint8_t data =0;
   uint8_t temp[5] = {0};
   uint8_t inst[5] = {0};
-  HAL_UART_Transmit(&huart2,"start",5,0xff);
+  // HAL_UART_Transmit(&huart2,"start",5,0xff);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,22 +113,27 @@ int main(void)
     if(data == 0x70)
     {
       HAL_UART_Receive(&huart1,temp,5,0xff);
-      if(temp[0] == 0x31)
-        inst[0] = 1;
-      if(temp[1] == 0x32)
-        inst[1] = 2;
-      if(temp[2] == 0x33)
-        inst[2] = 3;
-      if(temp[3] == 0x34)
-        inst[3] = 4;
-      if(temp[4] == 0x35)
-        inst[4] = 5;
+      // if(temp[0] == 0x31)
+      //   inst[0] = 1;
+      // if(temp[1] == 0x32)
+      //   inst[1] = 2;
+      // if(temp[2] == 0x33)
+      //   inst[2] = 3;
+      // if(temp[3] == 0x34)
+      //   inst[3] = 4;
+      // if(temp[4] == 0x35)
+      //   inst[4] = 5;
+
     }
-    if(sizeof(inst) == 5)
+    if(sizeof(temp) == 5 && isAllZero(temp) == false)
     {
       HAL_UART_Transmit(&huart2,temp,5,0xff);
       HAL_Delay(200);
+      for(int i = 0; i < 5; i++) {
+        temp[i] = 0;
+      }
     }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

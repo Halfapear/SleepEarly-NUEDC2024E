@@ -1,0 +1,3 @@
+C:/environ/FILE_STM32/SCREEN/cmake-build-debug/CMakeFiles/SCREEN.elf.dir
+C:/environ/FILE_STM32/SCREEN/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/environ/FILE_STM32/SCREEN/cmake-build-debug/CMakeFiles/rebuild_cache.dir
